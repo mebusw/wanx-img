@@ -26,22 +26,22 @@ This skill provides commands for generating and editing images using the WanX 2.
 
 - **Use custom prompt to generate image**
 ```bash
-/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "/Users/jacky/work/08 大模型编程原型机AI-RAG/demo/wanx2.6-text-to-image-v2-demo.py" --prompt "一只可爱的猫咪在花园里玩耍"
+/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "wanx-img/scripts/wanx2.6-text-to-image-v2-demo.py" --prompt "一只可爱的猫咪在花园里玩耍"
 ```
 
 - **Use synchronous call with custom prompt to generate image**
 ```bash
-/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "/Users/jacky/work/08 大模型编程原型机AI-RAG/demo/wanx2.6-text-to-image-v2-demo.py" -p "美丽的日落风景" --sync
+/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "wanx-img/scripts/wanx2.6-text-to-image-v2-demo.py" -p "美丽的日落风景" --sync
 ```
 
 - **Use custom prompt and referencing images to edit image**
 ```bash
-/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "/Users/jacky/work/08 大模型编程原型机AI-RAG/demo/wanx2.6-image-edit-demo.py" --prompt "参考图1的风格和图2的背景，生成番茄炒蛋" --images http://1.img http://2.img
+/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "wanx-img/scripts/wanx2.6-image-edit-demo.py" --prompt "参考图1的风格和图2的背景，生成番茄炒蛋" --images http://1.img http://2.img
 ```
 
 - **Use synchronous call with custom prompt to edit iamge**
 ```bash
-/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "/Users/jacky/work/08 大模型编程原型机AI-RAG/demo/wanx2.6-image-edit-demo.py" -p "参考图1的风格和图2的背景，生成番茄炒蛋" --sync
+/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "wanx-img/scripts/wanx2.6-image-edit-demo.py" -p "参考图1的风格和图2的背景，生成番茄炒蛋" --sync
 ```
 
 
