@@ -13,8 +13,22 @@ This skill provides commands for generating and editing images using the WanX 2.
 1. decide user's intent: whether to generate a new image, or edit given images
 2. decide which version of visual mode will be used, use the highest version by default
 3. if user provides images urls/paths, you don't need to read the files but only pass them to scripts
-4. run a proper script to generate or edit images with user input prompt, synchronously by default
-5. output original prompts, extended actual prompts, and full urls of generated images (don't miss any parameters from the url for example Signature etc. )
+4. if user specify size of image in pixel number, pass it to scripts, or if user specify aspect ratio, convert it to image size and then pass to scripts
+5. run a proper script to generate or edit images with user input prompt, synchronously by default
+6. output original prompts, extended actual prompts, size of image, and full urls of generated images (don't miss any parameters from the url for example Signature etc. )
+7. download and save all files to `~/Downloads`
+
+
+## Conversion between ratio and image size
+The total number of pixels must be between [1280*1280, 1440*1440] and the aspect ratio must be between [1:4, 4:1]. For example, 768*2700 meets the requirements. The default value is 1280*1280.
+
+| aspect ratio | image size |
+| --- | --- |
+| 1:1 | 1280*1280 |
+| 3:4 | 1104*1472 |
+| 4:3 | 1472*1104 |
+| 9:16 | 960*1696 |
+| 16:9 | 1696*960 |
 
 
 ## Available Scripts
@@ -26,20 +40,20 @@ This skill provides commands for generating and editing images using the WanX 2.
 
 
 ## Setting Up
-进入目录并安装依赖：
+首次使用时，进入目录并安装依赖：
 ```bash
-   cd ~/.claude/skills/wanx-img
-   python3 -m venv py312-ai-rag
-   source py312-ai-rag/bin/activate
-   pip install dashscope python-dotenv argparse
-   cp .env.example .env
+cd ~/.claude/skills/wanx-img
+python3 -m venv py312-ai-rag
+source py312-ai-rag/bin/activate
+pip install dashscope python-dotenv argparse
+cp .env.example .env
 ```
 
 ## Usage Examples
 
 - **Use custom prompt to generate image**
 ```bash
-/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-text-to-image-v2-demo.py" --prompt "一只可爱的猫咪在花园里玩耍"
+/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-text-to-image-v2-demo.py" --prompt "一只可爱的猫咪在花园里玩耍. ar 3:4" --size "960*1280"
 ```
 
 - **Use synchronous call with custom prompt to generate image**

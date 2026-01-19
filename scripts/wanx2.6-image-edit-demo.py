@@ -127,6 +127,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         '--images', '-i',
+        metavar='URL',
         type=str,
         nargs='+',
         default=DEFAULT_IMAGES,

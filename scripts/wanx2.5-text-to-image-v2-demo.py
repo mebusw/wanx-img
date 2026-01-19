@@ -22,14 +22,14 @@ api_key = os.getenv("DASHSCOPE_API_KEY")
 
 
 # 创建同步任务
-def create_sync_task(prompt):
+def create_sync_task(prompt, size='1024*1024'):
     print('----sync call, please wait a moment----')
     rsp = ImageSynthesis.call(api_key=api_key,
                             model="wan2.2-t2i-flash", # wan2.2-t2i-flash, wan2.5-t2i-preview
                             prompt=prompt,
                             negative_prompt="",
                             n=1,
-                            size='1280*1280',
+                            size=size,
                             prompt_extend=True,
                             watermark=False,
                             seed=12345)
@@ -45,15 +45,15 @@ def create_sync_task(prompt):
             (rsp.status_code, rsp.code, rsp.message))
     
 
-def async_call(prompt):
+def async_call(prompt, size):
     print('----create task----')
-    task_info = create_async_task(prompt)
+    task_info = create_async_task(prompt, size)
     print('----wait task done then save image----')
     wait_async_task(task_info)
 
 
 # 创建异步任务
-def create_async_task(prompt):
+def create_async_task(prompt, size='1024*1024'):
     rsp = ImageSynthesis.async_call(api_key=api_key,
                                     model="wan2.2-t2i-flash", # wan2.2-t2i-flash, wan2.5-t2i-preview
                                     prompt="近景镜头，18岁的中国女孩，古代服饰，圆脸，正面看着镜头，民族优雅的服装，商业摄影，室外，电影级光照，半身特写，精致的淡妆，锐利的边缘。",
@@ -64,7 +64,7 @@ def create_async_task(prompt):
                                     ref_strength=1.0,
                                     ref_img="",
                                     sketch_image_url=None, #参考图方式：url链接和本地路径二选一，若两者存在，ref_img参数优先级高于sketch_image_url
-                                    size='1024*1024',
+                                    size=size,
                                     prompt_extend=True,
                                     watermark=False,
                                     seed=12345)    
@@ -73,7 +73,7 @@ def create_async_task(prompt):
     #                                 prompt=prompt,
     #                                 negative_prompt="",
     #                                 n=1,
-    #                                 size='1024*1024',
+    #                                 size=size,
     #                                 prompt_extend=True,
     #                                 watermark=False,
     #                                 seed=12345)
@@ -124,20 +124,28 @@ def cancel_task(task):
               (rsp.status_code, rsp.code, rsp.message))
 
 
-if __name__ == '__main__':
+# 主执行流程
+if __name__ == "__main__":
     # 默认提示词（用户选中的文本）
     DEFAULT_PROMPT = '一间有着精致窗户的花店，漂亮的木质门，摆放着花朵'
+    DEFAULT_SIZE = '1024*1024'
 
     # 解析命令行参数
     parser = argparse.ArgumentParser(description='WanX 2.5- Text to Image Generator')
     parser.add_argument(
-        '--prompt', '-p',
+        '-p', '--prompt',
         type=str,
         default=DEFAULT_PROMPT,
         help=f'Input prompt for image generation (default: "{DEFAULT_PROMPT}")'
     )
     parser.add_argument(
-        '--sync', '-s',
+         '-z', '--size',
+        type=str,
+        default=DEFAULT_SIZE,
+        help=f'Input size for image generation (default: "{DEFAULT_SIZE}"). Either width or height should be between 512 and 1440.'
+    )
+    parser.add_argument(
+         '-s', '--sync',
         action='store_true',
         help='Use synchronous call instead of async'
     )
@@ -146,6 +154,6 @@ if __name__ == '__main__':
 
     # 根据参数选择同步或异步调用
     if args.sync:
-        create_sync_task(args.prompt)
+        create_sync_task(args.prompt, args.size)
     else:
-        async_call(args.prompt)
+        async_call(args.prompt, args.size)
