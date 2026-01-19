@@ -11,16 +11,29 @@ This skill provides commands for generating and editing images using the WanX 2.
 ## Workflow
 
 1. decide user's intent: whether to generate a new image, or edit given images
-2. if user provides images urls/paths, you don't need to read the files but only pass them to scripts
-3. run a proper script to generate or edit images with user input prompt, synchronously by default
-4. output original prompts, extended prompts and url of generated images
+2. decide which version of visual mode will be used, use the highest version by default
+3. if user provides images urls/paths, you don't need to read the files but only pass them to scripts
+4. run a proper script to generate or edit images with user input prompt, synchronously by default
+5. output original prompts, extended actual prompts, and full urls of generated images (don't miss any parameters from the url for example Signature etc. )
 
 
 ## Available Scripts
 
-- `wanx2.6-text-to-image-v2-demo.py` - Generate images from text prompts
-- `wanx2.6-image-edit-demo.py` - Edit images with text prompts, optionally with reference/mask images
+- `wanx2.6-text-to-image-v2-demo.py` - Generate images from text prompts, using WanX visual model version 2.6
+- `wanx2.6-image-edit-demo.py` - Edit images with text prompts, optionally with reference/mask images, using WanX visual model version 2.6
+- `wanx2.5-text-to-image-v2-demo.py` - Generate images from text prompts, using WanX visual model version 2.5
+- `wanx2.5-image-edit-demo.py` - Edit images with text prompts, optionally with reference/mask images, using WanX visual model version 2.5
 
+
+## Setting Up
+进入目录并安装依赖：
+```bash
+   cd ~/.claude/skills/wanx-img
+   python3 -m venv py312-ai-rag
+   source py312-ai-rag/bin/activate
+   pip install dashscope python-dotenv argparse
+   cp .env.example .env
+```
 
 ## Usage Examples
 
