@@ -16,7 +16,6 @@ This skill provides commands for generating and editing images using the WanX 2.
 4. if user specify size of image in pixel number, pass it to scripts, or if user specify aspect ratio, convert it to image size and then pass to scripts
 5. run a proper script to generate or edit images with user input prompt, synchronously by default
 6. output original prompts, extended actual prompts, size of image, and full urls of generated images (don't miss any parameters from the url for example Signature etc. )
-7. download and save all files to `~/Downloads`
 
 
 ## Conversion between ratio and image size
@@ -49,26 +48,28 @@ pip install dashscope python-dotenv argparse
 cp .env.example .env
 ```
 
+后续执行python脚本时，先执行`source py312-ai-rag/bin/activate`，然后再执行脚本。如果`python`或`python3`命令找不到合适的packages，则应用`~/.pyenv/versions/py312-ai-rag/bin/python`来替代作为执行器。
+
 ## Usage Examples
 
 - **Use custom prompt to generate image**
 ```bash
-/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-text-to-image-v2-demo.py" --prompt "一只可爱的猫咪在花园里玩耍. ar 3:4" --size "960*1280"
+python "./scripts/wanx2.6-text-to-image-v2-demo.py" --prompt "一只可爱的猫咪在花园里玩耍. ar 3:4" --size "960*1280"
 ```
 
 - **Use synchronous call with custom prompt to generate image**
 ```bash
-/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-text-to-image-v2-demo.py" -p "美丽的日落风景" --sync
+python "./scripts/wanx2.6-text-to-image-v2-demo.py" -p "美丽的日落风景" --sync
 ```
 
 - **Use custom prompt and referencing images to edit image**
 ```bash
-/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-image-edit-demo.py" --prompt "参考图1的风格和图2的背景，生成番茄炒蛋" --images http://1.img http://2.img
+python "./scripts/wanx2.6-image-edit-demo.py" --prompt "参考图1的风格和图2的背景，生成番茄炒蛋" --images http://1.img http://2.img
 ```
 
 - **Use synchronous call with custom prompt to edit iamge**
 ```bash
-/Users/jacky/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-image-edit-demo.py" -p "参考图1的风格和图2的背景，生成番茄炒蛋" --sync
+python "./scripts/wanx2.6-image-edit-demo.py" -p "参考图1的风格和图2的背景，生成番茄炒蛋" --sync
 ```
 
 
