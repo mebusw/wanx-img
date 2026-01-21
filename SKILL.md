@@ -6,7 +6,7 @@ allowed-tools: Read, Bash
 
 ## Overview
 
-This skill provides commands for generating and editing images using the WanX 2.6 model from Alibaba.
+This skill provides commands for generating and editing images using the WanX model from Alibaba.
 
 ## Workflow
 
@@ -36,6 +36,7 @@ The total number of pixels must be between [1280*1280, 1440*1440] and the aspect
 - `wanx2.6-image-edit-demo.py` - Edit images with text prompts, optionally with reference/mask images, using WanX visual model version 2.6
 - `wanx2.5-text-to-image-v2-demo.py` - Generate images from text prompts, using WanX visual model version 2.5
 - `wanx2.5-image-edit-demo.py` - Edit images with text prompts, optionally with reference/mask images, using WanX visual model version 2.5
+- `wanx2.2-text-to-image-v2-demo.py` - Generate images from text prompts, using WanX visual model version 2.2
 
 
 ## Setting Up

@@ -25,7 +25,7 @@ api_key = os.getenv("DASHSCOPE_API_KEY")
 def create_sync_task(prompt, size='1024*1024'):
     print('----sync call, please wait a moment----')
     rsp = ImageSynthesis.call(api_key=api_key,
-                            model="wan2.5-t2i-preview", # wan2.2-t2i-flash, wan2.5-t2i-preview
+                            model="wan2.2-t2i-flash", # wan2.2-t2i-flash, wan2.5-t2i-preview
                             prompt=prompt,
                             negative_prompt="",
                             n=1,
@@ -55,7 +55,7 @@ def async_call(prompt, size):
 # 创建异步任务
 def create_async_task(prompt, size='1024*1024'):
     rsp = ImageSynthesis.async_call(api_key=api_key,
-                                    model="wan2.5-t2i-preview", # wan2.2-t2i-flash, wan2.5-t2i-preview
+                                    model="wan2.2-t2i-flash", # wan2.2-t2i-flash, wan2.5-t2i-preview
                                     prompt="近景镜头，18岁的中国女孩，古代服饰，圆脸，正面看着镜头，民族优雅的服装，商业摄影，室外，电影级光照，半身特写，精致的淡妆，锐利的边缘。",
                                     negative_prompt="",
                                     n=1,
@@ -67,16 +67,7 @@ def create_async_task(prompt, size='1024*1024'):
                                     size=size,
                                     prompt_extend=True,
                                     watermark=False,
-                                    seed=12345)    
-    # rsp = ImageSynthesis.async_call(api_key=api_key,
-    #                                 model="wan2.5-t2i-preview",  
-    #                                 prompt=prompt,
-    #                                 negative_prompt="",
-    #                                 n=1,
-    #                                 size=size,
-    #                                 prompt_extend=True,
-    #                                 watermark=False,
-    #                                 seed=12345)
+                                    seed=12345)
     print(rsp)
     if rsp.status_code == HTTPStatus.OK:
         print(rsp.output)
