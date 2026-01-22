@@ -11,7 +11,7 @@ This skill provides commands for generating and editing images using the WanX mo
 ## Workflow
 
 1. decide user's intent: whether to generate a new image, or edit given images
-2. decide which version of visual mode will be used, use the highest version by default
+2. decide which version of visual LLM will be used, use the highest version by default, if it's not availiable or rejected by provider, then downgrade to other version
 3. if user provides images urls/paths, you don't need to read the files but only pass them to scripts
 4. if user specify size of image in pixel number, pass it to scripts, or if user specify aspect ratio, convert it to image size and then pass to scripts
 5. run a proper script to generate or edit images with user input prompt, synchronously by default
