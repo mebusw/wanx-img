@@ -58,14 +58,14 @@ cp .env.example .env
 ~/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-text-to-image-v2-demo.py" --prompt "一只可爱的猫咪在花园里玩耍. ar 3:4" --size "960*1280"
 ```
 
-- **Use synchronous call with custom prompt to generate image**
+- **Use synchronous call with custom prompt and negative prompt to generate image**
 ```bash
-~/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-text-to-image-v2-demo.py" -p "美丽的日落风景" --sync
+~/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-text-to-image-v2-demo.py" -p "美丽的日落风景" -n "人物" --sync
 ```
 
 - **Use custom prompt and referencing images to edit image**
 ```bash
-~/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-image-edit-demo.py" --prompt "参考图1的风格和图2的背景，生成番茄炒蛋" --images http://1.img http://2.img
+~/.pyenv/versions/py312-ai-rag/bin/python "./scripts/wanx2.6-image-edit-demo.py" --prompt "参考图1的风格和图2的背景，生成番茄炒蛋" --images http://1.img http://2.img -m http://3.img -b http://4.img
 ```
 
 - **Use synchronous call with custom prompt to edit iamge**

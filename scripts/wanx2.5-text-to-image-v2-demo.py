@@ -22,12 +22,12 @@ api_key = os.getenv("DASHSCOPE_API_KEY")
 
 
 # 创建同步任务
-def create_sync_task(prompt, size='1024*1024'):
+def create_sync_task(prompt, size='1024*1024', negative_prompt=""):
     print('----sync call, please wait a moment----')
     rsp = ImageSynthesis.call(api_key=api_key,
                             model="wan2.5-t2i-preview", # wan2.2-t2i-flash, wan2.5-t2i-preview
                             prompt=prompt,
-                            negative_prompt="",
+                            negative_prompt=negative_prompt,
                             n=1,
                             size=size,
                             prompt_extend=True,
@@ -45,19 +45,19 @@ def create_sync_task(prompt, size='1024*1024'):
             (rsp.status_code, rsp.code, rsp.message))
     
 
-def async_call(prompt, size):
+def async_call(prompt, size, negative_prompt=""):
     print('----create task----')
-    task_info = create_async_task(prompt, size)
+    task_info = create_async_task(prompt, size, negative_prompt)
     print('----wait task done then save image----')
     wait_async_task(task_info)
 
 
 # 创建异步任务
-def create_async_task(prompt, size='1024*1024'):
+def create_async_task(prompt, size='1024*1024', negative_prompt=""):
     rsp = ImageSynthesis.async_call(api_key=api_key,
                                     model="wan2.5-t2i-preview", # wan2.2-t2i-flash, wan2.5-t2i-preview
                                     prompt="近景镜头，18岁的中国女孩，古代服饰，圆脸，正面看着镜头，民族优雅的服装，商业摄影，室外，电影级光照，半身特写，精致的淡妆，锐利的边缘。",
-                                    negative_prompt="",
+                                    negative_prompt=negative_prompt,
                                     n=1,
                                     style='<auto>',
                                     ref_mode='repaint',
@@ -131,13 +131,19 @@ if __name__ == "__main__":
     DEFAULT_SIZE = '1024*1024'
 
     # 解析命令行参数
-    parser = argparse.ArgumentParser(description='WanX 2.5- Text to Image Generator')
+    parser = argparse.ArgumentParser(description='WanX 2.5 Text to Image Generator')
     parser.add_argument(
         '-p', '--prompt',
         type=str,
         default=DEFAULT_PROMPT,
         help=f'Input prompt for image generation (default: "{DEFAULT_PROMPT}")'
     )
+    parser.add_argument(
+        '--negative-prompt', '-n',
+        type=str,
+        default="",
+        help='Negative prompt for image generation'
+    )    
     parser.add_argument(
          '-z', '--size',
         type=str,
@@ -154,6 +160,6 @@ if __name__ == "__main__":
 
     # 根据参数选择同步或异步调用
     if args.sync:
-        create_sync_task(args.prompt, args.size)
+        create_sync_task(args.prompt, args.size, args.negative_prompt)
     else:
-        async_call(args.prompt, args.size)
+        async_call(args.prompt, args.size, args.negative_prompt)

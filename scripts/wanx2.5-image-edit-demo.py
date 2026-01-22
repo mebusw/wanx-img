@@ -30,13 +30,15 @@ base_image_url = "http://wanx.alicdn.com/material/20250318/description_edit_with
 # image_url_2 = "file://" + "C:/path/to/your/image_2.png"  # Windows
 
 # 创建同步任务
-def create_sync_task(prompt, image_urls):
+def create_sync_task(prompt, image_urls, negative_prompt="", mask_image_url=None, base_image_url=None):
     print('----sync call, please wait a moment----')
     rsp = ImageSynthesis.call(api_key=api_key,
                             model="wan2.5-i2i-preview",
                             prompt=prompt,
                             images=image_urls,
-                            negative_prompt="",
+                            negative_prompt=negative_prompt,
+                            mask_image_url=mask_image_url,
+                            base_image_url=base_image_url,
                             n=1,
                             size="1280*1280",
                             prompt_extend=True,
@@ -54,15 +56,15 @@ def create_sync_task(prompt, image_urls):
             (rsp.status_code, rsp.code, rsp.message))
 
 
-def async_call(prompt, image_urls):
+def async_call(prompt, image_urls, negative_prompt="", mask_image_url=None, base_image_url=None):
     print('----create task----')
-    task_info = create_async_task(prompt, image_urls)
+    task_info = create_async_task(prompt, image_urls, negative_prompt, mask_image_url, base_image_url)
     print('----wait task----')
     wait_async_task(task_info)
 
 
 # 创建异步任务
-def create_async_task(prompt, image_urls):
+def create_async_task(prompt, image_urls, negative_prompt="", mask_image_url=None, base_image_url=None):
     # rsp = ImageSynthesis.async_call(api_key=api_key,
     #                           model="wanx2.1-imageedit",
     #                           function="description_edit_with_mask",
@@ -81,7 +83,9 @@ def create_async_task(prompt, image_urls):
                                 model="wan2.5-i2i-preview", 
                                 prompt=prompt,
                                 images=image_urls,
-                                negative_prompt="",
+                                negative_prompt=negative_prompt,
+                                mask_image_url=mask_image_url,
+                                base_image_url=base_image_url,
                                 n=1,
                                 # size="1280*1280",
                                 prompt_extend=True,
@@ -165,11 +169,29 @@ if __name__ == "__main__":
         action='store_true',
         help='Use synchronous call instead of async'
     )
+    parser.add_argument(
+        '--negative-prompt', '-n',
+        type=str,
+        default="",
+        help='Negative prompt for image generation'
+    )
+    parser.add_argument(
+        '--mask-image-url', '-m',
+        type=str,
+        default=None,
+        help='Mask image URL for editing (optional)'
+    )
+    parser.add_argument(
+        '--base-image-url', '-b',
+        type=str,
+        default=None,
+        help='Base image URL for editing (optional)'
+    )
 
     args = parser.parse_args()
 
     # 根据参数选择同步或异步调用
     if args.sync:
-        create_sync_task(args.prompt, args.images)
+        create_sync_task(args.prompt, args.images, args.negative_prompt, args.mask_image_url, args.base_image_url)
     else:
-        async_call(args.prompt, args.images)
+        async_call(args.prompt, args.images, args.negative_prompt, args.mask_image_url, args.base_image_url)

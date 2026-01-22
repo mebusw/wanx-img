@@ -22,7 +22,7 @@ api_key = os.getenv("DASHSCOPE_API_KEY")
 
 
 # 创建同步任务
-def create_sync_task(prompt, size='1024*1024'):
+def create_sync_task(prompt, size='1024*1024', negative_prompt=""):
     message = Message(
         role="user",
         content=[
@@ -36,7 +36,7 @@ def create_sync_task(prompt, size='1024*1024'):
         model="wan2.6-t2i",
         api_key=api_key,
         messages=[message],
-        negative_prompt="",
+        negative_prompt=negative_prompt,
         prompt_extend=True,
         watermark=False,
         n=1,
@@ -45,14 +45,14 @@ def create_sync_task(prompt, size='1024*1024'):
     print(rsp)
     return rsp
 
-def async_call(prompt, size):
+def async_call(prompt, size, negative_prompt=""):
     print('----create task----')
-    task = create_async_task(prompt, size)
+    task = create_async_task(prompt, size, negative_prompt="")
     print('----wait task done then save image----')
     wait_for_completion(task)
 
 # 创建异步任务
-def create_async_task(prompt, size='1024*1024'):
+def create_async_task(prompt, size='1024*1024', negative_prompt=""):
     print("Creating async task...")
     message = Message(
         role="user",
@@ -62,7 +62,7 @@ def create_async_task(prompt, size='1024*1024'):
         model="wan2.6-t2i",
         api_key=api_key,
         messages=[message],
-        negative_prompt="",
+        negative_prompt=negative_prompt,
         prompt_extend=True,
         watermark=False,
         n=1,
@@ -122,6 +122,12 @@ if __name__ == "__main__":
         help=f'Input prompt for image generation (default: "{DEFAULT_PROMPT}")'
     )
     parser.add_argument(
+        '--negative-prompt', '-n',
+        type=str,
+        default="",
+        help='Negative prompt for image generation'
+    )    
+    parser.add_argument(
          '-z', '--size',
         type=str,
         default=DEFAULT_SIZE,
@@ -133,11 +139,10 @@ if __name__ == "__main__":
         help='Use synchronous call instead of async'
     )
 
-
     args = parser.parse_args()
 
     # 根据参数选择同步或异步调用
     if args.sync:
-        create_sync_task(args.prompt, args.size)
+        create_sync_task(args.prompt, args.size, args.negative_prompt)
     else:
-        async_call(args.prompt, args.size)
+        async_call(args.prompt, args.size, args.negative_prompt)

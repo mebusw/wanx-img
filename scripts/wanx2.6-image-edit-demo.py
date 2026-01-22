@@ -20,7 +20,7 @@ api_key = os.getenv("DASHSCOPE_API_KEY")
 
 
 # 创建同步任务
-def create_sync_task(prompt, image_urls):
+def create_sync_task(prompt, image_urls, negative_prompt="", mask_image_url=None, base_image_url=None):
     message = Message(
         role="user",
         # 支持本地文件 如 "image": "file://umbrella1.png"
@@ -31,7 +31,9 @@ def create_sync_task(prompt, image_urls):
             model='wan2.6-image',
             api_key=api_key,
             messages=[message],
-            negative_prompt="",
+            negative_prompt=negative_prompt,
+            mask_image_url=mask_image_url,
+            base_image_url=base_image_url,
             prompt_extend=True,
             watermark=False,
             n=1,
@@ -43,14 +45,14 @@ def create_sync_task(prompt, image_urls):
     return rsp
 
 
-def async_call(prompt, image_urls):
+def async_call(prompt, image_urls, negative_prompt="", mask_image_url=None, base_image_url=None):
     print('----create task----')
-    task = create_async_task(prompt, image_urls)
+    task = create_async_task(prompt, image_urls, negative_prompt, mask_image_url, base_image_url)
     print('----wait task done then save image----')
     wait_for_completion(task)
 
 # 创建异步任务
-def create_async_task(prompt, image_urls):
+def create_async_task(prompt, image_urls, negative_prompt="", mask_image_url=None, base_image_url=None):
     print("Creating async task...")
     message = Message(
         role="user",
@@ -60,7 +62,9 @@ def create_async_task(prompt, image_urls):
         model="wan2.6-image",
         api_key=api_key,
         messages=[message],
-        negative_prompt="",
+        negative_prompt=negative_prompt,
+        mask_image_url=mask_image_url,
+        base_image_url=base_image_url,
         prompt_extend=True,
         watermark=False,
         n=1,
@@ -138,11 +142,29 @@ if __name__ == "__main__":
         action='store_true',
         help='Use synchronous call instead of async'
     )
+    parser.add_argument(
+        '--negative-prompt', '-n',
+        type=str,
+        default="",
+        help='Negative prompt for image generation'
+    )
+    parser.add_argument(
+        '--mask-image-url', '-m',
+        type=str,
+        default=None,
+        help='Mask image URL for editing (optional)'
+    )
+    parser.add_argument(
+        '--base-image-url', '-b',
+        type=str,
+        default=None,
+        help='Base image URL for editing (optional)'
+    )
 
     args = parser.parse_args()
 
     # 根据参数选择同步或异步调用
     if args.sync:
-        create_sync_task(args.prompt, args.images)
+        create_sync_task(args.prompt, args.images, args.negative_prompt, args.mask_image_url, args.base_image_url)
     else:
-        async_call(args.prompt, args.images)
+        async_call(args.prompt, args.images, args.negative_prompt, args.mask_image_url, args.base_image_url)
