@@ -43,13 +43,13 @@ The total number of pixels must be between [1280*1280, 1440*1440] and the aspect
 首次使用时，进入目录并安装依赖：
 ```bash
 cd ~/.claude/skills/wanx-img
-python3 -m venv py312-ai-rag
-source py312-ai-rag/bin/activate
+python3 -m venv ~/.pyenv/versions/py312-ai-rag
+source ~/.pyenv/versions/py312-ai-rag/bin/activate
 pip install dashscope python-dotenv argparse
 cp .env.example .env
 ```
 
-后续执行python脚本时，先执行`source py312-ai-rag/bin/activate`，然后再执行脚本。如果`python`或`python3`命令找不到合适的packages，则应用`~/.pyenv/versions/py312-ai-rag/bin/python`来替代作为执行器。
+后续执行python脚本时，先执行`source ~/.pyenv/versions/py312-ai-rag/bin/activate`，然后再执行脚本。如果`python`或`python3`命令找不到合适的packages，则应用`~/.pyenv/versions/py312-ai-rag/bin/python`来替代作为执行器。
 
 ## Usage Examples
 
